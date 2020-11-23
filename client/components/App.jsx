@@ -1,8 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import AppRoutes from './AppRoutes'
+import Header from './Header'
 
-import {getObjects} from '../api'
+import { getObjects } from '../api'
 
 export default class App extends React.Component {
   constructor (props) {
@@ -13,6 +15,7 @@ export default class App extends React.Component {
     }
     this.fetchObjects = this.fetchObjects.bind(this)
   }
+  
 
   componentDidMount () {
     this.fetchObjects()
@@ -32,6 +35,7 @@ export default class App extends React.Component {
     return (
       <div id='layout' className='pure-g'>
         <div className='content pure-u-1 pure-u-md-3-4'>
+          <Header/>
           <AppRoutes
             objects={this.state.objects}
             fetchObjects={this.fetchObjects}
@@ -44,3 +48,10 @@ export default class App extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    target: state.navigation
+  }
+}
+// export default connect(mapStateToProps)(App)

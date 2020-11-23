@@ -33,9 +33,9 @@ class Object extends React.Component {
       <div className='object'>
           <Link to={`/api/v1/objects/${id}`}>
           <header className='object-header'>
-          <h2 className='object-name'>{name}</h2>
+          <h3 className='object-name'>{name}</h3>
           </header></Link>
-          <h2 className='object-description'>{description}</h2>
+          <h3 className='object-description'>{description}</h3>
 
         <div className='pure-button-group' role='group'>
           <Link to={`/api/v1/objects/edit/${id}`}>

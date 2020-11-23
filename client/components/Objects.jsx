@@ -7,7 +7,7 @@ function Objects (props) {
   return (
     <>
         <div className='objects'>
-        <h1 className='content-subhead'>Objects</h1>
+        <h2 className='content-subhead'>Objects List</h2>
         {props.objects.map(object => {
             return <Object
             key={object.id}
