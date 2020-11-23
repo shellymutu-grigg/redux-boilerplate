@@ -11,57 +11,24 @@ h1 {
   margin-bottom: 40px;
 }
 
-.beer p {
-  margin: 5px 0;
-}
-
-.beer .name {
+.object {
   margin-top: 40px;
   font-size: x-large;
   font-weight: 300;
 }
 
-.beer p:last-child {
+.object p:last-child {
   display: flex;
   justify-content: space-between;
   color: darkgray;
 }
 
-.beer .country {
+.object .object-name {
+  font-style: normal;
+}
+
+.object .object-description {
   font-style: italic;
 }
 
-.beer .abv {
-  font-style: italic;
-}
-
-.beer .cart-link {
-  text-align: right;
-}
-
-.cart table {
-  width: 100%;
-}
-
-.cart .update-input {
-  width: 40px;
-  text-align: center;
-  margin-bottom: 0px; /* skeleton override */
-}
-
-.update-input {
-  width: 40px;
-  text-align: center;
-  margin-bottom: 0px; /* skeleton override */
-}
-
-.cart tbody button {
-  border: 0;
-  padding-top: 10px;
-}
-
-.cart .actions {
-  display: flex;
-  justify-content: space-between;
-}
 

@@ -1,50 +1,94 @@
-export const ADD_TO_CART = 'ADD_TO_CART'
+import request from 'superagent'
+import { getObjects } from '../api' 
+
+// Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
-export const UPDATE_QUANTITIES = 'UPDATE_QUANTITIES'
-export const DEL_BEER = 'DEL_BEER'
+export const SHOW_ERROR = 'SHOW_ERROR'
+export const RECEIVE_OBJECTS = 'RECEIVE_OBJECTS'
+export const REQUEST_OBJECTS = 'REQUEST_OBJECTS'
 
-export const addBeer = (id, name) => {
-  return {
-    type: ADD_TO_CART,
-    id: id,
-    name: name
-  }
-}
+export const ADD_OBJECT= 'ADD_OBJECT'
+export const UPDATE_OBJECT = 'UPDATE_OBJECT'
+export const DEL_OBJECT = 'DEL_OBJECT'
+export const PENDING = 'PENDING'
 
-export const updateQuantities = cart => {
-  return {
-    type: UPDATE_QUANTITIES,
-    cart: cart
-  }
-}
-
-export function deleteBeer (id, name) {
-  return {
-    type: DEL_BEER,
-    id: id,
-    name: name
-  }
-}
-
-export const navigate = target => {
+// Create action creator for navigation
+export const navigate = (target) => {
   return {
     type: NAVIGATE,
-    target: target
+    target
+  }
+}
+
+// Create action creator for requesting objects
+export const requestObjects = () => {
+  return {
+    type: REQUEST_OBJECTS
+  }
+}
+
+// Create action creator for receiving objects
+export const receiveObjects = (objects) => {
+  return {
+    type: RECEIVE_OBJECTS,
+    objects: objects
+  }
+}
+
+// Create action creator for showing errors
+export const showError = (errorMessage) => {
+  return {
+    type: SHOW_ERROR,
+    errorMessage: errorMessage
+  }
+}
+
+// Create action creator for adding objects
+export const addObject = (object) => {
+  return {
+    type: ADD_OBJECT,
+    object: object
+  }
+}
+
+// Create action creator for updating objects
+export const updateObject = object => {
+  return {
+    type: UPDATE_OBJECT,
+    object: object
+  }
+}
+
+// Create action creator for deleting objects
+export const deleteObject = (object) => {
+  return {
+    type: DEL_OBJECT,
+    object: object
   }
 }
 
 // Implement redux-thunk
-export function addCartItem (id, name, target) {
-  return (dispatch) => {
-    dispatch(addBeer(id, name))
-    dispatch(navigate(target))
-  }
-}
-
-// export function updateCart (beer, quantity) {
-//   return {
-//     type: 'UPDATE_BEER',
-//     beer: beer,
-//     quantity: quantity
+// export function getObjects () {
+//   return (dispatch) => {
+//     dispatch(addBeer(id, name)) // optional pending
+//     // api
+//     dispatch(navigate(target)) // action puts in store
 //   }
 // }
+
+// Implement redux-thunk
+export function fetchObjects (objects) {
+  return (dispatch) => {
+    dispatch(requestObjects())
+    console.log('actions/index.js > fetchObjects()',requestObjects())
+    return getObjects()
+      .then((res) => {
+        console.log('actions/index.js > res', res)
+        dispatch(receiveObjects(res))
+        return null
+      })
+      .catch((err) => {
+        dispatch(showError(err.message))
+      })
+  }
+}
