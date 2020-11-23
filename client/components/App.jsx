@@ -3,14 +3,22 @@ import React from 'react'
 import Header from './Header'
 import LoadObjects from './LoadObjects'
 import PendingIndicator from './PendingIndicator'
+import ObjectForm from './ObjectForm'
+import { connect } from 'react-redux'
+
+const mapStateToProps = (state) => {
+  return {
+    target: state.navigation
+  }
+}
 
 const App = (props) => (
   <div className='app'>
- {console.log('client/index.js', props)}
     <Header />
-    <LoadObjects />
-    <PendingIndicator />
+    {props.target === 'home' 
+    ? <> <LoadObjects /> <PendingIndicator /> </>: <ObjectForm />}
+    
   </div>
 )
 
-export default App
+export default connect(mapStateToProps)(App)

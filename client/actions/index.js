@@ -1,11 +1,13 @@
 import request from 'superagent'
-import { getObjects } from '../api' 
+import { getObjects, addObject } from '../api' 
 
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
 export const SHOW_ERROR = 'SHOW_ERROR'
 export const RECEIVE_OBJECTS = 'RECEIVE_OBJECTS'
 export const REQUEST_OBJECTS = 'REQUEST_OBJECTS'
+export const RECEIVE_OBJECT = 'RECEIVE_OBJECT'
+export const REQUEST_OBJECT = 'REQUEST_OBJECT'
 
 export const ADD_OBJECT= 'ADD_OBJECT'
 export const UPDATE_OBJECT = 'UPDATE_OBJECT'
@@ -35,6 +37,22 @@ export const receiveObjects = (objects) => {
   }
 }
 
+// Create action creator for requesting object
+export const requestObject = (id) => {
+  return {
+    type: REQUEST_OBJECT,
+    id: id
+  }
+}
+
+// Create action creator for receiving object
+export const receiveObject = (object) => {
+  return {
+    type: RECEIVE_OBJECT,
+    object: object
+  }
+}
+
 // Create action creator for showing errors
 export const showError = (errorMessage) => {
   return {
@@ -44,7 +62,7 @@ export const showError = (errorMessage) => {
 }
 
 // Create action creator for adding objects
-export const addObject = (object) => {
+export const addNewObject = (object) => {
   return {
     type: ADD_OBJECT,
     object: object
@@ -80,10 +98,8 @@ export const deleteObject = (object) => {
 export function fetchObjects (objects) {
   return (dispatch) => {
     dispatch(requestObjects())
-    console.log('actions/index.js > fetchObjects()',requestObjects())
     return getObjects()
       .then((res) => {
-        console.log('actions/index.js > res', res)
         dispatch(receiveObjects(res))
         return null
       })
@@ -92,3 +108,19 @@ export function fetchObjects (objects) {
       })
   }
 }
+
+// export function addNewObject (object) {
+//   return (dispatch) => {
+//     dispatch(includeObject(object))
+//     console.log('actions/index.js > addObject()',includeObject(object))
+//     return addObject(object)
+//       .then((res) => {
+//         console.log('actions/index.js > res', res)
+//         dispatch(receiveObject(res))
+//         return null
+//       })
+//       .catch((err) => {
+//         dispatch(showError(err.message))
+//       })
+//   }
+// }

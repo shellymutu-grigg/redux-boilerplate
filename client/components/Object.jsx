@@ -38,7 +38,6 @@ class Object extends React.Component {
   // }
 
   render () {
-    console.log('Object.jsx:', this.props.object)
     const {id, name, description} = this.props.object
     return (
       <div className='object'>
@@ -64,12 +63,5 @@ class Object extends React.Component {
   }
 }
 
-// Object.defaultProps = {
-//     object: {
-//       id: null,
-//       name: '',
-//       description: ''
-//     }
-//   }
 
 export default connect()(Object)

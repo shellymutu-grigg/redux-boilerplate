@@ -1,70 +1,77 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import { addObject, updateObject } from '../api'
 
-class ObjectForm extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      errorMessage: '',
-      object: {
-        name: '',
-        description: ''
-      }
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+const mapStateToProps = (state) => {
+  return {
+    target: state.target
   }
+}
+
+class ObjectForm extends React.Component {
+  // constructor (props) {
+  //   super(props)
+  //   this.state = {
+  //     errorMessage: '',
+  //     object: {
+  //       name: '',
+  //       description: ''
+  //     }
+  //   }
+  //   this.handleChange = this.handleChange.bind(this)
+  //   this.handleSubmit = this.handleSubmit.bind(this)
+  // }
 
   componentDidMount () {
     const {object} = this.props
     if (object) this.setNewObject(object)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const {object} = nextProps
-    if (object && !this.props.object) this.setNewObject(object)
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   const {object} = nextProps
+  //   if (object && !this.props.object) this.setNewObject(object)
+  // }
 
-  setNewObject (object) {
-    this.setState({
-        object: Object.assign({}, object)
-    })
-  }
+  // setNewObject (object) {
+  //   this.setState({
+  //       object: Object.assign({}, object)
+  //   })
+  // }
 
-  handleSubmit (e) {
-    e.preventDefault()
-    const {object, history, fetchObjects} = this.props
+  // handleSubmit (e) {
+  //   e.preventDefault()
+  //   const {object, history, fetchObjects} = this.props
 
-    if (object) {
-      updateObject(this.state.object)
-        .then(fetchObjects)
-        .then(navigateToObject(object.id))
-        .catch(err => this.setState({errorMessage: err.message}))
-    } else {
-      addObject(this.state.object)
-        .then(newObject => {
-          return fetchObjects()
-          .then(navigateToObject(newObject[0].id)) 
-        })
-        .catch(err => this.setState({errorMessage: err.message}))
-    }
+  //   if (object) {
+  //     updateObject(this.state.object)
+  //       .then(fetchObjects)
+  //       .then(navigateToObject(object.id))
+  //       .catch(err => this.setState({errorMessage: err.message}))
+  //   } else {
+  //     addObject(this.state.object)
+  //       .then(newObject => {
+  //         return fetchObjects()
+  //         .then(navigateToObject(newObject[0].id)) 
+  //       })
+  //       .catch(err => this.setState({errorMessage: err.message}))
+  //   }
 
-    function navigateToObject (id) {  
-      return () => history.push(`/api/v1/objects/${id}`)
-    }
-  }
+  //   function navigateToObject (id) {  
+  //     return () => history.push(`/api/v1/objects/${id}`)
+  //   }
+  // }
 
-  handleChange (e) {
-    const newObject = {
-      ...this.state.object,
-      [e.target.name]: e.target.value
-    }
+  // handleChange (e) {
+  //   const newObject = {
+  //     ...this.state.object,
+  //     [e.target.name]: e.target.value
+  //   }
     
-    this.setState({
-      object: newObject
-    })
-  }
+  //   this.setState({
+  //     object: newObject
+  //   })
+  // }
 
   render () {
     return (
@@ -80,7 +87,7 @@ class ObjectForm extends React.Component {
             <input
               type='text'
               name='name'
-              value={this.state.object.name}
+              // value={this.state.object.name}
               onChange={this.handleChange}
             />
           </div>
@@ -90,7 +97,7 @@ class ObjectForm extends React.Component {
             <textarea
               type='text'
               name='description'
-              value={this.state.object.description}
+              // value={this.state.object.description}
               onChange={this.handleChange}>
             </textarea>
           </div>
@@ -100,10 +107,10 @@ class ObjectForm extends React.Component {
           </div>
         </fieldset>
 
-        <p>{this.state.errorMessage && this.state.errorMessage}</p>
+        {/* <p>{this.state.errorMessage && this.state.errorMessage}</p> */}
       </form>
     )
   }
 }
 
-export default ObjectForm
+export default connect(mapStateToProps)(ObjectForm)

@@ -14,8 +14,6 @@ const store = createStore(index,
     applyMiddleware(thunkMiddleware)
   ))
 
-console.log('client/index.js', JSON.stringify(store.getState(), null, 2))
-
 document.addEventListener('DOMContentLoaded', () => {
   render(
     <Provider store={store}>

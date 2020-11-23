@@ -5,61 +5,61 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 // Import action to fire off action and send to reducer to compare states with store
-import { fetchObjects } from '../actions'
-import Grid from '@material-ui/core/Grid'
+import { navigate, fetchObjects } from '../actions'
 import Object from './Object'
 
 // Map state to props
 const mapStateToProps = (store) => {
   return {
-    objects: store.objects
+    objects: store.objects,
+    errorMessage: store.errorMessage
   }
 }
 
 class LoadObjects extends React.Component {
   state = {
-    objects: ''
+    objects: '',
+    object: ''
   }
 
   componentDidMount () {
     const objs = this.props.objects
     if (objs) { 
         const objs = this.props.dispatch(fetchObjects(`${this.state.objects}`))
-        console.log('Objects > componentDidMount > objects:', JSON.stringify(objs,null,2))
-    }
+     }
   }
 
-
-  handleChange = (e) => {
-    this.setState({
-      object: e.target.value
-    })
+  handleClick = (e) => {
+    e.preventDefault()
+     const action = navigate('new')
+     this.props.dispatch(action)
   }
+
+  // handleChange = (e) => {
+  //   this.setState({
+  //     object: e.target.value
+  //   })
+  // }
 
   render () {
-     console.log('LoadObjects.jsx > render()',this.props.objects)
-    return (
+     return (
       <div>
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justify="flex-start"
-          alignItems="flex-start">
-
           {this.props.objects
             ? <>
               {this.props.objects.map((object) => {
-               console.log('LoadObjects.jsx:', object)
                return <Object
                   key={object.id}
-                  object={object} />}
+                  object={object} 
+                //   fetchObjects={props.fetchObjects}
+                //  path={props.location.pathname}
+              />}
               )}
             </>
             : <h3>Hmmm....</h3>
           }
-        </Grid>
-
+          <div>
+          <button className='button-secondary pure-button' onClick={this.handleClick}> Add New Object </button>
+          </div>
       </div>
     )
   }
