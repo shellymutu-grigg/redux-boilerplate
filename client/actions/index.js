@@ -1,4 +1,4 @@
-import { getObjects, getObject, addObject, updateObject } from '../api' 
+import { getObjects, getObject, addObject, updateObject, deleteObject} from '../api' 
 
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
@@ -134,6 +134,22 @@ export function changeObject (object) {
   return (dispatch) => {
     dispatch(adjustObject(object))
     console.log('actions/index.js > changeObject()',adjustObject(object))
+    return updateObject(object)
+      .then((res) => {
+        console.log('actions/index.js > res', res)
+        dispatch(navigate('edit'))
+        return null
+      })
+      .catch((err) => {
+        dispatch(showError(err.message))
+      })
+  }
+}
+
+export function removeObject (object) {
+  return (dispatch) => {
+    dispatch(deleteObject(object))
+    console.log('actions/index.js > removeObject()',adjusObject(object))
     return updateObject(object)
       .then((res) => {
         console.log('actions/index.js > res', res)
