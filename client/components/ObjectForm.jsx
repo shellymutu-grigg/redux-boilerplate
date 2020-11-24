@@ -5,7 +5,11 @@ import { navigate, addNewObject, fetchObject, updateObject } from '../actions'
 
 class ObjectForm extends React.Component {
   state = {
-    object: {},
+    object: {
+      id: null,
+      name: null,
+      description: null
+    },
     state: ''
   }
   
@@ -86,7 +90,7 @@ class ObjectForm extends React.Component {
             <input
               type='text'
               name='name'
-              value={name}
+              defaultValue={name}
               onChange={this.handleChange}
             />
           </div>
@@ -96,7 +100,7 @@ class ObjectForm extends React.Component {
             <textarea
               type='text'
               name='description'
-              value={description}
+              defaultValue={description}
               onChange={this.handleChange}>
             </textarea>
           </div>
