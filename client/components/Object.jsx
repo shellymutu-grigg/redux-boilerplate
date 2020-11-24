@@ -2,7 +2,7 @@ import React from 'react'
 // import { Link}  from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { navigate, getObject, changeObject } from '../actions'
+import { navigate, fetchObject, changeObject } from '../actions'
 
 
 class Object extends React.Component {
@@ -20,7 +20,7 @@ class Object extends React.Component {
     console.log("Object editObject:", JSON.stringify(this.props.object, null,2))
     props.target = 'edit'
     this.props.dispatch(changeObject(this.props.object.id))
-    this.props.dispatch(getObject(id))
+    this.props.dispatch(fetchObject(id))
     props.target = 'edit'
     const action = navigate('edit')
     this.props.dispatch(action)
