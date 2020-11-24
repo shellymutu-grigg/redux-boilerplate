@@ -86,7 +86,7 @@ class ObjectForm extends React.Component {
             <input
               type='text'
               name='name'
-              placeholder={name}
+              value={name}
               onChange={this.handleChange}
             />
           </div>
@@ -96,7 +96,7 @@ class ObjectForm extends React.Component {
             <textarea
               type='text'
               name='description'
-              placeholder={description}
+              value={description}
               onChange={this.handleChange}>
             </textarea>
           </div>
