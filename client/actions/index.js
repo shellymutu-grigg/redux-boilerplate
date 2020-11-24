@@ -121,8 +121,9 @@ export function addNewObject (object) {
     return addObject(object)
       .then((res) => {
         console.log('actions/index.js > addNewObject > res', res)
+        // dispatch(fetchObject(res[0].id))
         dispatch(navigate('edit'))
-        return null
+        return res[0]
       })
       .catch((err) => {
         dispatch(showError(err.message))

@@ -34,6 +34,5 @@ function updateObject (id, update, db = connection) {
 
 // Create deleteObjectById function for api on server/database side
 function deleteObjectById(id, db = connection) {
-  console.log("db.js deleteObject:", id)
   return db('object').where('object.id', id).delete()
 }

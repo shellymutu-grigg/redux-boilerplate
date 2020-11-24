@@ -11,7 +11,6 @@ class Object extends React.Component {
     console.log("Object editObject:", JSON.stringify(this.props.object, null,2))
     this.props.dispatch(changeObject(this.props.object))
     this.props.dispatch(fetchObject(this.props.object.id))
-    // this.props.target = 'edit'
     const action = navigate('edit')
     this.props.dispatch(action)
   }
@@ -21,7 +20,6 @@ class Object extends React.Component {
     console.log("Object removeObject:", JSON.stringify(this.props.object, null,2))
     this.props.dispatch(expungeObject(this.props.object.id))
     this.props.dispatch(fetchObjects(this.props.objects))
-    this.props.target = 'home'
     const action = navigate('home')
     this.props.dispatch(action)
   }

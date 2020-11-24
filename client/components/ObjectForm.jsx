@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { navigate, addNewObject, fetchObject, updateObject } from '../actions'
+import { navigate, addNewObject, fetchObject, changeObject } from '../actions'
 
 class ObjectForm extends React.Component {
   state = {
@@ -15,13 +15,37 @@ class ObjectForm extends React.Component {
   
   handleSubmit = (e) => {
     e.preventDefault()
+    console.log('ObjectForm > handleSubmit:', this.props.target)
+    if(this.props.target === 'new'){
+      console.log('ObjectForm > handleSubmit > if "new":', this.props.target)
+      this.makeNewObject()
+    } else if (this.props.target === 'edit'){
+      this.makeChangesToObject()
+    }
+  }
+
+  makeNewObject = (e) => {
+    console.log('ObjectForm > makeNewObject:', this.state.object)
     this.props.dispatch(addNewObject(this.state.object))
       .then(newObject => {
-        console.log('ObjectForm > handleSubmit:', fetchObject(newObject.id))
+        this.state.object = newObject
+        console.log('ObjectForm > makeNewObject:', newObject)
+        console.log('ObjectForm > makeNewObject:', this.state.object)
         return fetchObject(newObject.id)
         .then(this.navigateToObject(newObject[0].id)) 
       })
-      .catch(err => this.setState({errorMessage: err.message})) 
+      .catch(err => this.setState({errorMessage: err.message}))
+  }
+
+  makeChangesToObject = (e) => {
+    console.log('ObjectForm > makeChangesToObject:', this.state.object)
+    this.props.dispatch(changeObject(this.state.object))
+      .then(updatedObject => {
+        console.log('ObjectForm > makeChangesToObject:', fetchObject(updatedObject.id))
+        return fetchObject(updatedObject.id)
+        .then(this.navigateToObject(updatedObject[0].id)) 
+      })
+      .catch(err => this.setState({errorMessage: err.message}))
   }
 
   navigateToObject = (id) => { 
@@ -37,6 +61,8 @@ class ObjectForm extends React.Component {
       ...this.state.object,
       [e.target.name]: e.target.value
     }
+    // newObject.id = this.props.object.id
+    console.log('ObjectForm > handleChange:', this.state.object)
     this.state.object = newObject
   }
 
