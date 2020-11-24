@@ -1,8 +1,7 @@
 import React from 'react'
-// import { Link}  from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { navigate, fetchObject, changeObject, } from '../actions'
+import { navigate, fetchObject, changeObject, expungeObject, fetchObjects} from '../actions'
 
 
 class Object extends React.Component {
@@ -19,10 +18,11 @@ class Object extends React.Component {
 
   removeObject = (e) => {
     e.preventDefault()
-    const action = deleteObject(this.props.object.id)
-      .then(this.props.fetchObjects)
-      .then(() => this.props.history.push(`/`))
-      .catch(err => this.setState({errorMessage: err.message}))
+    console.log("Object removeObject:", JSON.stringify(this.props.object, null,2))
+    this.props.dispatch(expungeObject(this.props.object.id))
+    this.props.dispatch(fetchObjects(this.props.objects))
+    this.props.target = 'home'
+    const action = navigate('home')
     this.props.dispatch(action)
   }
 
