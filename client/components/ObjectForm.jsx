@@ -3,51 +3,29 @@ import { connect } from 'react-redux'
 
 import { navigate, addNewObject, fetchObject, updateObject } from '../actions'
 
-const mapStateToProps = (store) => {
-  return {
-    target: store.target,
-    object: store.object,
-    errorMessage: store.errorMessage
-  }
-}
-
 class ObjectForm extends React.Component {
   state = {
-    object: {}
+    object: {},
+    state: ''
   }
-
-  // componentDidMount () {
-  //   const obj = this.props.object
-  //   console.log('ObjectForm > componentDidMount:',obj)
-  //   if (obj) { 
-  //       this.props.dispatch(fetchObject(`${this.state.object.id}`))
-  //    }
-  // }
-
+  
   handleSubmit = (e) => {
     e.preventDefault()
-    // const {object} = this.props
-    // console.log('ObjectForm > handleSubmit:', object)
-    // if (object) {
-    //   updateObject(this.state.object)
-    //     .then(fetchObject)
-    //     .then(navigateToObject(object.id))
-    //     .catch(err => this.setState({errorMessage: err.message}))
-    // } else {
-      
-      this.props.dispatch(addNewObject(this.state.object))
-        .then(newObject => {
-          // console.log('ObjectForm > handleSubmit:', newObject)
-          return fetchObject(newObject.id)
-          .then(this.navigateToObject(newObject[0].id)) 
-        })
-        .catch(err => this.setState({errorMessage: err.message}))
-    // }
+    this.props.dispatch(addNewObject(this.state.object))
+      .then(newObject => {
+        console.log('ObjectForm > handleSubmit:', fetchObject(newObject.id))
+        return fetchObject(newObject.id)
+        .then(this.navigateToObject(newObject[0].id)) 
+      })
+      .catch(err => this.setState({errorMessage: err.message})) 
+  }
 
-    navigateToObject = (id)=> {  
-     const action = navigate('home')
-     this.props.dispatch(action)
-    }
+  navigateToObject = (id) => { 
+    console.log('ObjectForm > navigateToObject:', id) 
+    this.props.dispatch(getObject(id))
+    props.target = 'edit'
+    const action = navigate('edit')
+    this.props.dispatch(action)
   }
 
   handleChange = (e) => {
@@ -56,19 +34,12 @@ class ObjectForm extends React.Component {
       [e.target.name]: e.target.value
     }
     this.state.object = newObject
-    
-    // this.setState({
-    //   object: newObject
-    // })
   }
 
-  render () {
+  newForm = () =>{
     return (
-      <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
-        {this.props.object
-          ? <h2 className='object-name'>Edit Object</h2>
-          : <h2 className='object-name'>Add a New Object</h2>
-        }
+    <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
+       <h2 className='object-name'>Add a New Object</h2>
 
         <fieldset>
           <div className='pure-control-group'>
@@ -76,7 +47,6 @@ class ObjectForm extends React.Component {
             <input
               type='text'
               name='name'
-              // value={this.state.object.name}
               onChange={this.handleChange}
             />
           </div>
@@ -86,7 +56,47 @@ class ObjectForm extends React.Component {
             <textarea
               type='text'
               name='description'
-              // value={this.state.object.description}
+              onChange={this.handleChange}>
+            </textarea>
+          </div>
+
+          <div className='pure-controls'>
+            <input className='pure-button' type='submit' />
+          </div>
+        </fieldset>
+
+        <p>{this.props.errorMessage && this.props.errorMessage}</p> 
+      </form>
+    )
+  }
+
+  editForm = () => {
+     const {id, name, description} = this.state.object
+    return (
+      <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
+        <h2 className='object-name'>Edit Object</h2>
+        <header className='object-header'>
+          <h3 className='object-name'>Name: {name}</h3>
+          </header>
+           <h3 className='object-description'>Description: {description}</h3>
+
+        <fieldset>
+          <div className='pure-control-group'>
+            <label htmlFor='title-name'>Name</label>
+            <input
+              type='text'
+              name='name'
+              placeholder={name}
+              onChange={this.handleChange}
+            />
+          </div>
+
+          <div className='pure-control-group'>
+            <label htmlFor='description'>Description</label>
+            <textarea
+              type='text'
+              name='description'
+              placeholder={description}
               onChange={this.handleChange}>
             </textarea>
           </div>
@@ -99,6 +109,25 @@ class ObjectForm extends React.Component {
         {/* <p>{this.state.errorMessage && this.state.errorMessage}</p> */}
       </form>
     )
+
+  }
+
+  render () { 
+    console.log('ObjectForm > render > this:', this.props.target)
+    if(this.props.target === 'new'){
+      return this.newForm()
+    }else if(this.props.target === 'edit'){  
+     return this.editForm()
+    }
+    
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    target: state.navigation,
+    object: state.object,
+    errorMessage: state.errorMessage
   }
 }
 

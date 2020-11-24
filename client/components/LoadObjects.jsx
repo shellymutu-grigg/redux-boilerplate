@@ -11,6 +11,7 @@ import Object from './Object'
 // Map state to props
 const mapStateToProps = (store) => {
   return {
+    target: store.target,
     objects: store.objects,
     errorMessage: store.errorMessage
   }
@@ -22,10 +23,7 @@ class LoadObjects extends React.Component {
   }
 
   componentDidMount () {
-    const objs = this.props.objects
-    if (objs) { 
-       this.props.dispatch(fetchObjects())
-    }
+    this.props.dispatch(fetchObjects())
   }
 
   handleClick = (e) => {
@@ -33,12 +31,6 @@ class LoadObjects extends React.Component {
      const action = navigate('new')
      this.props.dispatch(action)
   }
-
-  // handleChange = (e) => {
-  //   this.setState({
-  //     object: e.target.value
-  //   })
-  // }
 
   render () {
      return (
@@ -51,11 +43,10 @@ class LoadObjects extends React.Component {
                   key={object.id}
                   object={object} 
                   fetchObjects={fetchObjects}
-                //  path={props.location.pathname}
               />}
               )}
             </>
-            : <h3>Hmmm....</h3>
+            : <h3>Loading data.....</h3>
           }
           <div>
           <button className='button-secondary pure-button' onClick={this.handleClick}> Add New Object </button>

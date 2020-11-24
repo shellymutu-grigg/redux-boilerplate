@@ -41,17 +41,14 @@ class Object extends React.Component {
     const {id, name, description} = this.props.object
     return (
       <div className='object'>
-          {/* <Link to={`/api/v1/objects/${id}`}> */}
           <header className='object-header'>
           <h3 className='object-name'><a href={`/api/v1/objects/${id}`}>{name}</a></h3>
           </header>
-           {/* </Link> */}
            <h3 className='object-description'>{description}</h3>
 
         <div className='pure-button-group' role='group'> 
-          {/* <Link to={`/api/v1/objects/edit/${id}`}>  */}
             <button className='button-secondary pure-button'>Edit</button>
-          {/* </Link> */}
+
           <button
             onClick={this.removeObject}>        
             <span className="fa fa-trash fa-2x"></span>

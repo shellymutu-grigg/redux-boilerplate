@@ -17,7 +17,7 @@ export const PENDING = 'PENDING'
 export const navigate = (target) => {
   return {
     type: NAVIGATE,
-    target
+    target: target
   }
 }
 
@@ -121,7 +121,7 @@ export function addNewObject (object) {
     return addObject(object)
       .then((res) => {
         console.log('actions/index.js > res', res)
-        dispatch(requestObjects())
+        dispatch(navigate('edit'))
         return null
       })
       .catch((err) => {
