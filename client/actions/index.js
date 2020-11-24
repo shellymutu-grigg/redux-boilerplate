@@ -1,5 +1,4 @@
-import request from 'superagent'
-import { getObjects, addObject } from '../api' 
+import { getObjects, getObject, addObject } from '../api' 
 
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
@@ -62,7 +61,7 @@ export const showError = (errorMessage) => {
 }
 
 // Create action creator for adding objects
-export const addNewObject = (object) => {
+export const includeObject = (object) => {
   return {
     type: ADD_OBJECT,
     object: object
@@ -70,7 +69,7 @@ export const addNewObject = (object) => {
 }
 
 // Create action creator for updating objects
-export const updateObject = object => {
+export const updateObject = (object) => {
   return {
     type: UPDATE_OBJECT,
     object: object
@@ -84,15 +83,6 @@ export const deleteObject = (object) => {
     object: object
   }
 }
-
-// Implement redux-thunk
-// export function getObjects () {
-//   return (dispatch) => {
-//     dispatch(addBeer(id, name)) // optional pending
-//     // api
-//     dispatch(navigate(target)) // action puts in store
-//   }
-// }
 
 // Implement redux-thunk
 export function fetchObjects (objects) {
@@ -109,18 +99,33 @@ export function fetchObjects (objects) {
   }
 }
 
-// export function addNewObject (object) {
-//   return (dispatch) => {
-//     dispatch(includeObject(object))
-//     console.log('actions/index.js > addObject()',includeObject(object))
-//     return addObject(object)
-//       .then((res) => {
-//         console.log('actions/index.js > res', res)
-//         dispatch(receiveObject(res))
-//         return null
-//       })
-//       .catch((err) => {
-//         dispatch(showError(err.message))
-//       })
-//   }
-// }
+// Implement redux-thunk
+export function fetchObject (id) {
+  return (dispatch) => {
+    dispatch(requestObject())
+    return getObject()
+      .then((res) => {
+        dispatch(receiveObject(res))
+        return null
+      })
+      .catch((err) => {
+        dispatch(showError(err.message))
+      })
+  }
+}
+
+export function addNewObject (object) {
+  return (dispatch) => {
+    dispatch(includeObject(object))
+    console.log('actions/index.js > addObject()',includeObject(object))
+    return addObject(object)
+      .then((res) => {
+        console.log('actions/index.js > res', res)
+        dispatch(requestObjects())
+        return null
+      })
+      .catch((err) => {
+        dispatch(showError(err.message))
+      })
+  }
+}

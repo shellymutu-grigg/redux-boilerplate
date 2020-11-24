@@ -18,15 +18,14 @@ const mapStateToProps = (store) => {
 
 class LoadObjects extends React.Component {
   state = {
-    objects: '',
-    object: ''
+    objects: ''
   }
 
   componentDidMount () {
     const objs = this.props.objects
     if (objs) { 
-        const objs = this.props.dispatch(fetchObjects(`${this.state.objects}`))
-     }
+       this.props.dispatch(fetchObjects())
+    }
   }
 
   handleClick = (e) => {
@@ -44,13 +43,14 @@ class LoadObjects extends React.Component {
   render () {
      return (
       <div>
+        {console.log('LoadObjects:', this.props.objects)}
           {this.props.objects
             ? <>
               {this.props.objects.map((object) => {
                return <Object
                   key={object.id}
                   object={object} 
-                //   fetchObjects={props.fetchObjects}
+                  fetchObjects={fetchObjects}
                 //  path={props.location.pathname}
               />}
               )}

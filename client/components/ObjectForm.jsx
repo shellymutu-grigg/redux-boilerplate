@@ -1,77 +1,66 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { addObject, updateObject } from '../api'
+import { navigate, addNewObject, fetchObject, updateObject } from '../actions'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
   return {
-    target: state.target
+    target: store.target,
+    object: store.object,
+    errorMessage: store.errorMessage
   }
 }
 
 class ObjectForm extends React.Component {
-  // constructor (props) {
-  //   super(props)
-  //   this.state = {
-  //     errorMessage: '',
-  //     object: {
-  //       name: '',
-  //       description: ''
-  //     }
-  //   }
-  //   this.handleChange = this.handleChange.bind(this)
-  //   this.handleSubmit = this.handleSubmit.bind(this)
-  // }
-
-  componentDidMount () {
-    const {object} = this.props
-    if (object) this.setNewObject(object)
+  state = {
+    object: {}
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   const {object} = nextProps
-  //   if (object && !this.props.object) this.setNewObject(object)
+  // componentDidMount () {
+  //   const obj = this.props.object
+  //   console.log('ObjectForm > componentDidMount:',obj)
+  //   if (obj) { 
+  //       this.props.dispatch(fetchObject(`${this.state.object.id}`))
+  //    }
   // }
 
-  // setNewObject (object) {
-  //   this.setState({
-  //       object: Object.assign({}, object)
-  //   })
-  // }
+  handleSubmit = (e) => {
+    e.preventDefault()
+    // const {object} = this.props
+    // console.log('ObjectForm > handleSubmit:', object)
+    // if (object) {
+    //   updateObject(this.state.object)
+    //     .then(fetchObject)
+    //     .then(navigateToObject(object.id))
+    //     .catch(err => this.setState({errorMessage: err.message}))
+    // } else {
+      
+      this.props.dispatch(addNewObject(this.state.object))
+        .then(newObject => {
+          // console.log('ObjectForm > handleSubmit:', newObject)
+          return fetchObject(newObject.id)
+          .then(this.navigateToObject(newObject[0].id)) 
+        })
+        .catch(err => this.setState({errorMessage: err.message}))
+    // }
 
-  // handleSubmit (e) {
-  //   e.preventDefault()
-  //   const {object, history, fetchObjects} = this.props
+    navigateToObject = (id)=> {  
+     const action = navigate('home')
+     this.props.dispatch(action)
+    }
+  }
 
-  //   if (object) {
-  //     updateObject(this.state.object)
-  //       .then(fetchObjects)
-  //       .then(navigateToObject(object.id))
-  //       .catch(err => this.setState({errorMessage: err.message}))
-  //   } else {
-  //     addObject(this.state.object)
-  //       .then(newObject => {
-  //         return fetchObjects()
-  //         .then(navigateToObject(newObject[0].id)) 
-  //       })
-  //       .catch(err => this.setState({errorMessage: err.message}))
-  //   }
-
-  //   function navigateToObject (id) {  
-  //     return () => history.push(`/api/v1/objects/${id}`)
-  //   }
-  // }
-
-  // handleChange (e) {
-  //   const newObject = {
-  //     ...this.state.object,
-  //     [e.target.name]: e.target.value
-  //   }
+  handleChange = (e) => {
+    const newObject = {
+      ...this.state.object,
+      [e.target.name]: e.target.value
+    }
+    this.state.object = newObject
     
-  //   this.setState({
-  //     object: newObject
-  //   })
-  // }
+    // this.setState({
+    //   object: newObject
+    // })
+  }
 
   render () {
     return (

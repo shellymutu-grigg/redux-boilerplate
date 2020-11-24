@@ -6,7 +6,7 @@
 3. Populate "client/components/App.test.js" with tests to facilitate building "client/components/App.jsx" & "client/components/AppRoutes.jsx" with relevant "constructor", "componentDidMount", "fetchObjects ()" & "render ()" details.
 4. Ensure "client/components/App.jsx" is an export default class extending React.Component.
 5. Ensure "client/components/AppRoutes.jsx" is a class extending React.Component
-6. Build "client/components/Objects.jsx" function to display list of Objects in teh database
+6. Build "client/components/Objects.jsx" function to display list of Objects in the database
 7.  Build "client/components/Object.jsx" class that extends React.Component with relevant "constructor", "componentDidMount", "deleteObject ()" & "render ()" details.
 8. Ensure to "export default Object" in "client/components/Object.jsx".
 9. Include "Object.defaultProps" in "client/components/Object.jsx".
