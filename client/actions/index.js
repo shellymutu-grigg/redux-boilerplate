@@ -1,4 +1,10 @@
-import { getObjects, getObject, addObject, updateObject, deleteObject} from '../api' 
+// Import relevant functions from client/api.js
+import { 
+  getObjects, 
+  getObject, 
+  addObject, 
+  updateObject, 
+  deleteObject } from '../api' 
 
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
@@ -100,14 +106,14 @@ export function fetchObjects () {
   }
 }
 
-// Implement redux-thunk for fetching a single 
+// Implement redux-thunk for fetching a single object
 export function fetchObject (objectId) {
   return (dispatch) => {
     dispatch(requestObject(objectId))
     return getObject(objectId)
-       .then((res) => {
+      .then((res) => {
         dispatch(receiveObject(res[0]))
-          return res[0]
+        return res[0]
       })
       .catch((err) => {
         dispatch(showError(err.message))
@@ -115,6 +121,7 @@ export function fetchObject (objectId) {
   }
 }
 
+// Implement redux-thunk for adding a new object
 export function addNewObject (object) {
   return (dispatch) => {
     dispatch(includeObject(object))
@@ -130,6 +137,7 @@ export function addNewObject (object) {
   }
 }
 
+// Implement redux-thunk for updating an object
 export function changeObject (object) {
   return (dispatch) => {
     dispatch(adjustObject(object))
@@ -144,6 +152,7 @@ export function changeObject (object) {
   }
 }
 
+// Implement redux-thunk for deleting an object
 export function expungeObject (id) {
   return (dispatch) => {
     dispatch(removeObject(id))

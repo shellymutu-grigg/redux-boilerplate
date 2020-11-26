@@ -1,10 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 import Header from './Header'
 import LoadObjects from './LoadObjects'
 import PendingIndicator from './PendingIndicator'
 import ObjectForm from './ObjectForm'
-import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => {
   return {
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
   }
 }
 
+// Parent App component that holds Header and child components
 const App = (props) => (
   <div className='app'>
     <Header />
