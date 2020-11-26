@@ -13,12 +13,10 @@ export function getObjects () {
 
 // Create getObject function for api on client components side
 export function getObject (objectId) {
-  console.log('api.js > getObject(objectId): ', objectId)
   return request
     .get(`/api/v1/objects/${objectId}`)
     .then(res => {
-      console.log('api.js > getObject(objectId) > res: ', res.body)
-      return res.body})
+        return res.body})
     .catch(errorHandler('GET', '/:id'))
 }
 
@@ -33,7 +31,6 @@ export function addObject (object) {
 
 // Create updateObject function for api on client components side
 export function updateObject (object) {
-  console.log('api.js > updateObject(object): ', object)
   return request
     .patch(`/api/v1/objects/${object.id}`)
     .send(object)
@@ -43,7 +40,6 @@ export function updateObject (object) {
 
 // Create deleteObject function for api on client components side
 export function deleteObject (objectId) {
-  console.log("api.js deleteObject:", objectId)
   return request
     .del(`/api/v1/objects/${objectId}`)
     .then(res => res.body)

@@ -13,7 +13,6 @@ module.exports = {
 
 // Create getObjects function for api on server/database side
 function getObjects (db = connection) {
-  // console.log('db.js > getObjects():', db('object').select())
   return db('object').select()
 }
 

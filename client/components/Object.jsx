@@ -16,7 +16,6 @@ class Object extends React.Component {
   editObject = (e) => {
     e.preventDefault()
     this.state.object = this.props.object
-    console.log("Object editObject > state:", JSON.stringify(this.state.object, null,2))
     this.props.dispatch(fetchObject(this.props.object.id))
     .then((res) => {
         const action = navigate('edit')

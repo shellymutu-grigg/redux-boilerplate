@@ -71,7 +71,6 @@ export const includeObject = (object) => {
 
 // Create action creator for updating objects
 export const adjustObject = (object) => {
-  console.log('actions/index.js > adjustObject(object):', object)
   return {
     type: UPDATE_OBJECT,
     object
@@ -108,8 +107,7 @@ export function fetchObject (objectId) {
     return getObject(objectId)
        .then((res) => {
         dispatch(receiveObject(res[0]))
-        console.log('actions/index.js > fetchObject (objectId) > dispatch(receiveObject(res[0])) > res[0]',res[0])
-        return res[0]
+          return res[0]
       })
       .catch((err) => {
         dispatch(showError(err.message))
@@ -122,7 +120,6 @@ export function addNewObject (object) {
     dispatch(includeObject(object))
     return addObject(object)
       .then((res) => {
-        console.log('actions/index.js > addNewObject > res', res)
         dispatch(fetchObject(res[0].id))
         dispatch(navigate('edit'))
         return res[0]
@@ -136,13 +133,9 @@ export function addNewObject (object) {
 export function changeObject (object) {
   return (dispatch) => {
     dispatch(adjustObject(object))
-    console.log('actions/index.js > changeObject() > dispatch(adjustObject(object))',adjustObject(object))
     return updateObject(object)
       .then((res) => {
-        console.log('actions/index.js > changeObject() > res 1',res)
-        // dispatch(fetchObject(object.id))
         dispatch(navigate('edit'))
-        console.log('actions/index.js > changeObject() > res 2', res)
         return res
       })
       .catch((err) => {
@@ -156,7 +149,6 @@ export function expungeObject (id) {
     dispatch(removeObject(id))
     return deleteObject(id)
       .then((res) => {
-        console.log('actions/index.js > expungeObject() > res', res)
         return null
       })
       .catch((err) => {

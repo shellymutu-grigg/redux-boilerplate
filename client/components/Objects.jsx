@@ -15,7 +15,6 @@ class Objects extends React.Component{
     const id = this.props.object.id || this.props.match.params.id
     if (id) { 
        const objects = getObjects()
-       console.log('Objects > componentDidMount > objects:', JSON.stringify(objects,null,2))
     }
   }
 // function Objects (props) {
