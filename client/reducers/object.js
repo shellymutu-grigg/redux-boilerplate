@@ -9,8 +9,8 @@ const list = (state = [], action) => {
     }
     case UPDATE_OBJECT:
     {
-      console.log('reducers/object.js > UPDATE_OBJECT:', state)
-      return state.map(object => action.object.id === object.id ? action.object : object)
+      console.log('reducers/object.js > UPDATE_OBJECT:', action.object)
+      return action.object
     }
     case REQUEST_OBJECT:
     {

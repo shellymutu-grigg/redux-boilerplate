@@ -1,6 +1,5 @@
 import { getObjects, getObject, addObject, updateObject, deleteObject} from '../api' 
 
-import { createAsyncThunk } from '@reduxjs/toolkit'
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
 export const SHOW_ERROR = 'SHOW_ERROR'
@@ -72,6 +71,7 @@ export const includeObject = (object) => {
 
 // Create action creator for updating objects
 export const adjustObject = (object) => {
+  console.log('actions/index.js > adjustObject(object):', object)
   return {
     type: UPDATE_OBJECT,
     object
@@ -86,7 +86,7 @@ export const removeObject = (id) => {
   }
 }
 
-// Implement redux-thunk
+// Implement redux-thunk for fetching objects
 export function fetchObjects () {
   return (dispatch) => {
     dispatch(requestObjects())
@@ -101,12 +101,7 @@ export function fetchObjects () {
   }
 }
 
-// Implement redux-thunk
-// const fetchObjectById = createAsyncThunk('REQUEST_OBJECT', 
-// async (objectId, thunkAPI) => {
-//   const response = await getObject(objectId)
-//   return response.data
-// })d
+// Implement redux-thunk for fetching a single 
 export function fetchObject (objectId) {
   return (dispatch) => {
     dispatch(requestObject(objectId))
@@ -125,7 +120,6 @@ export function fetchObject (objectId) {
 export function addNewObject (object) {
   return (dispatch) => {
     dispatch(includeObject(object))
-    console.log('actions/index.js > addNewObject()',includeObject(object))
     return addObject(object)
       .then((res) => {
         console.log('actions/index.js > addNewObject > res', res)
@@ -160,7 +154,6 @@ export function changeObject (object) {
 export function expungeObject (id) {
   return (dispatch) => {
     dispatch(removeObject(id))
-    console.log('actions/index.js > expungeObject()',removeObject(id))
     return deleteObject(id)
       .then((res) => {
         console.log('actions/index.js > expungeObject() > res', res)

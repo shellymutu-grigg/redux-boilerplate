@@ -35,7 +35,7 @@ export function addObject (object) {
 export function updateObject (object) {
   console.log('api.js > updateObject(object): ', object)
   return request
-    .put(`/api/v1/objects/${object.id}`)
+    .patch(`/api/v1/objects/${object.id}`)
     .send(object)
     .then(res => res.body)
     .catch(errorHandler('PATCH', `/objects/${object.id}`))

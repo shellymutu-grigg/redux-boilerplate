@@ -34,11 +34,11 @@ class ObjectForm extends React.Component {
 
   makeChangesToObject = (e) => {
     console.log('ObjectForm > makeChangesToObject:', this.state.object)
-    this.props.dispatch(fetchObject(this.state.object))
+    this.props.dispatch(changeObject(this.state.object))
       .then(updatedObject => {
-        console.log('ObjectForm > makeChangesToObject:', fetchObject(updatedObject.id))
+        console.log('ObjectForm > makeChangesToObject > updatedObject:', updatedObject)
         return fetchObject(updatedObject.id)
-        .then(this.navigateToObject(updatedObject[0].id)) 
+        // .then(this.navigateToObject(updatedObject[0].id)) 
       })
       .catch(err => this.setState({errorMessage: err.message}))
   }
@@ -56,6 +56,7 @@ class ObjectForm extends React.Component {
       [e.target.name]: e.target.value
     }
     this.state.object = newObject
+    console.log('ObjectForm > handleChange:', this.state.object)
   }
 
   newForm = () =>{
@@ -93,8 +94,10 @@ class ObjectForm extends React.Component {
   }
 
   editForm = () => {
-    {console.log('ObjectForm.jsx > editForm() > this:',this.props )}
-     const {id, name, description} = this.props.object
+    {console.log('ObjectForm.jsx > editForm() > this.props.object):',this.props.object)}
+    this.state.object = this.props.object
+    {console.log('ObjectForm.jsx > editForm() > this.state.object):',this.state.object)}
+    const {id, name, description} = this.props.object
     return (
       <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
         <h2 className='object-name'>Edit Object</h2>
