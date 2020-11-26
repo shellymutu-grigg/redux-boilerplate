@@ -1,24 +1,26 @@
-export const ADD_OBJECT= 'ADD_OBJECT'
-export const UPDATE_OBJECT = 'UPDATE_OBJECT'
-export const DEL_OBJECT = 'DEL_OBJECT'
+import { UPDATE_OBJECT, DEL_OBJECT, REQUEST_OBJECT, RECEIVE_OBJECT } from '../actions'
 
 const list = (state = [], action) => {
   switch (action.type) {
-    case ADD_OBJECT:
-    {
-      const obj = {
-        name: action.object.name,
-        description: action.object.description
-      }
-      return [...state, obj] 
-    }
     case DEL_OBJECT:
     {
+      console.log('reducers/object.js > DEL_OBJECT:', state)
       return state.filter(object => action.object.id !== object.id)
     }
     case UPDATE_OBJECT:
     {
+      console.log('reducers/object.js > UPDATE_OBJECT:', state)
       return state.map(object => action.object.id === object.id ? action.object : object)
+    }
+    case REQUEST_OBJECT:
+    {
+      console.log('reducers/object.js > REQUEST_OBJECT:', state)
+      return state.map(object => action.object.id === object.id)
+    }
+    case RECEIVE_OBJECT:
+    {
+      console.log('reducers/object.js > RECEIVE_OBJECT:', action.object)
+      return action.object
     }
     default:
       return state

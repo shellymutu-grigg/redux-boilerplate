@@ -15,9 +15,7 @@ class ObjectForm extends React.Component {
   
   handleSubmit = (e) => {
     e.preventDefault()
-    console.log('ObjectForm > handleSubmit:', this.props.target)
     if(this.props.target === 'new'){
-      console.log('ObjectForm > handleSubmit > if "new":', this.props.target)
       this.makeNewObject()
     } else if (this.props.target === 'edit'){
       this.makeChangesToObject()
@@ -25,21 +23,18 @@ class ObjectForm extends React.Component {
   }
 
   makeNewObject = (e) => {
-    console.log('ObjectForm > makeNewObject:', this.state.object)
-    this.props.dispatch(addNewObject(this.state.object))
+     this.props.dispatch(addNewObject(this.state.object))
       .then(newObject => {
         this.state.object = newObject
-        console.log('ObjectForm > makeNewObject:', newObject)
-        console.log('ObjectForm > makeNewObject:', this.state.object)
         return fetchObject(newObject.id)
-        .then(this.navigateToObject(newObject[0].id)) 
+          .then(this.navigateToObject(newObject[0].id)) 
       })
       .catch(err => this.setState({errorMessage: err.message}))
   }
 
   makeChangesToObject = (e) => {
     console.log('ObjectForm > makeChangesToObject:', this.state.object)
-    this.props.dispatch(changeObject(this.state.object))
+    this.props.dispatch(fetchObject(this.state.object))
       .then(updatedObject => {
         console.log('ObjectForm > makeChangesToObject:', fetchObject(updatedObject.id))
         return fetchObject(updatedObject.id)
@@ -49,7 +44,6 @@ class ObjectForm extends React.Component {
   }
 
   navigateToObject = (id) => { 
-    console.log('ObjectForm > navigateToObject:', id) 
     this.props.dispatch(getObject(id))
     props.target = 'edit'
     const action = navigate('edit')
@@ -61,8 +55,6 @@ class ObjectForm extends React.Component {
       ...this.state.object,
       [e.target.name]: e.target.value
     }
-    // newObject.id = this.props.object.id
-    console.log('ObjectForm > handleChange:', this.state.object)
     this.state.object = newObject
   }
 
@@ -101,7 +93,8 @@ class ObjectForm extends React.Component {
   }
 
   editForm = () => {
-     const {id, name, description} = this.state.object
+    {console.log('ObjectForm.jsx > editForm() > this:',this.props )}
+     const {id, name, description} = this.props.object
     return (
       <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
         <h2 className='object-name'>Edit Object</h2>
@@ -136,7 +129,7 @@ class ObjectForm extends React.Component {
           </div>
         </fieldset>
 
-        {/* <p>{this.state.errorMessage && this.state.errorMessage}</p> */}
+         <p>{this.props.errorMessage && this.props.errorMessage}</p>
       </form>
     )
 

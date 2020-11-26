@@ -1,23 +1,25 @@
 import { getObjects, getObject, addObject, updateObject, deleteObject} from '../api' 
 
+import { createAsyncThunk } from '@reduxjs/toolkit'
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
 export const SHOW_ERROR = 'SHOW_ERROR'
+export const PENDING = 'PENDING'
+
 export const RECEIVE_OBJECTS = 'RECEIVE_OBJECTS'
 export const REQUEST_OBJECTS = 'REQUEST_OBJECTS'
+export const ADD_OBJECT= 'ADD_OBJECT'
+
 export const RECEIVE_OBJECT = 'RECEIVE_OBJECT'
 export const REQUEST_OBJECT = 'REQUEST_OBJECT'
-
-export const ADD_OBJECT= 'ADD_OBJECT'
 export const UPDATE_OBJECT = 'UPDATE_OBJECT'
 export const DEL_OBJECT = 'DEL_OBJECT'
-export const PENDING = 'PENDING'
 
 // Create action creator for navigation
 export const navigate = (target) => {
   return {
     type: NAVIGATE,
-    target: target
+    target
   }
 }
 
@@ -32,7 +34,7 @@ export const requestObjects = () => {
 export const receiveObjects = (objects) => {
   return {
     type: RECEIVE_OBJECTS,
-    objects: objects
+    objects
   }
 }
 
@@ -40,7 +42,7 @@ export const receiveObjects = (objects) => {
 export const requestObject = (id) => {
   return {
     type: REQUEST_OBJECT,
-    id: id
+    id
   }
 }
 
@@ -48,7 +50,7 @@ export const requestObject = (id) => {
 export const receiveObject = (object) => {
   return {
     type: RECEIVE_OBJECT,
-    object: object
+    object
   }
 }
 
@@ -56,7 +58,7 @@ export const receiveObject = (object) => {
 export const showError = (errorMessage) => {
   return {
     type: SHOW_ERROR,
-    errorMessage: errorMessage
+    errorMessage
   }
 }
 
@@ -64,7 +66,7 @@ export const showError = (errorMessage) => {
 export const includeObject = (object) => {
   return {
     type: ADD_OBJECT,
-    object: object
+    object
   }
 }
 
@@ -72,7 +74,7 @@ export const includeObject = (object) => {
 export const adjustObject = (object) => {
   return {
     type: UPDATE_OBJECT,
-    object: object
+    object
   }
 }
 
@@ -80,12 +82,12 @@ export const adjustObject = (object) => {
 export const removeObject = (id) => {
   return {
     type: DEL_OBJECT,
-    id: id
+    id
   }
 }
 
 // Implement redux-thunk
-export function fetchObjects (objects) {
+export function fetchObjects () {
   return (dispatch) => {
     dispatch(requestObjects())
     return getObjects()
@@ -100,13 +102,19 @@ export function fetchObjects (objects) {
 }
 
 // Implement redux-thunk
-export function fetchObject (id) {
+// const fetchObjectById = createAsyncThunk('REQUEST_OBJECT', 
+// async (objectId, thunkAPI) => {
+//   const response = await getObject(objectId)
+//   return response.data
+// })d
+export function fetchObject (objectId) {
   return (dispatch) => {
-    dispatch(requestObject())
-    return getObject()
-      .then((res) => {
-        dispatch(receiveObject(res))
-        return null
+    dispatch(requestObject(objectId))
+    return getObject(objectId)
+       .then((res) => {
+        dispatch(receiveObject(res[0]))
+        console.log('actions/index.js > fetchObject (objectId) > dispatch(receiveObject(res[0])) > res[0]',res[0])
+        return res[0]
       })
       .catch((err) => {
         dispatch(showError(err.message))
@@ -121,7 +129,7 @@ export function addNewObject (object) {
     return addObject(object)
       .then((res) => {
         console.log('actions/index.js > addNewObject > res', res)
-        // dispatch(fetchObject(res[0].id))
+        dispatch(fetchObject(res[0].id))
         dispatch(navigate('edit'))
         return res[0]
       })
@@ -134,12 +142,14 @@ export function addNewObject (object) {
 export function changeObject (object) {
   return (dispatch) => {
     dispatch(adjustObject(object))
-    console.log('actions/index.js > changeObject()',adjustObject(object))
+    console.log('actions/index.js > changeObject() > dispatch(adjustObject(object))',adjustObject(object))
     return updateObject(object)
       .then((res) => {
-        console.log('actions/index.js > changeObject() > res', res)
+        console.log('actions/index.js > changeObject() > res 1',res)
+        // dispatch(fetchObject(object.id))
         dispatch(navigate('edit'))
-        return null
+        console.log('actions/index.js > changeObject() > res 2', res)
+        return res
       })
       .catch((err) => {
         dispatch(showError(err.message))
@@ -154,7 +164,6 @@ export function expungeObject (id) {
     return deleteObject(id)
       .then((res) => {
         console.log('actions/index.js > expungeObject() > res', res)
-        dispatch(navigate('home'))
         return null
       })
       .catch((err) => {

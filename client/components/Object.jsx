@@ -5,19 +5,28 @@ import { navigate, fetchObject, changeObject, expungeObject, fetchObjects} from 
 
 
 class Object extends React.Component {
+  state = {
+    object: {
+      id: null,
+      name: null,
+      description: null
+    }
+  }
 
   editObject = (e) => {
     e.preventDefault()
-    console.log("Object editObject:", JSON.stringify(this.props.object, null,2))
-    this.props.dispatch(changeObject(this.props.object))
+    this.state.object = this.props.object
+    console.log("Object editObject > state:", JSON.stringify(this.state.object, null,2))
     this.props.dispatch(fetchObject(this.props.object.id))
-    const action = navigate('edit')
-    this.props.dispatch(action)
+    .then((res) => {
+        const action = navigate('edit')
+        this.props.dispatch(action)
+      })
+    
   }
 
   removeObject = (e) => {
     e.preventDefault()
-    console.log("Object removeObject:", JSON.stringify(this.props.object, null,2))
     this.props.dispatch(expungeObject(this.props.object.id))
     this.props.dispatch(fetchObjects(this.props.objects))
     const action = navigate('home')
