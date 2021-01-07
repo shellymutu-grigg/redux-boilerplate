@@ -1,10 +1,11 @@
 // Import relevant functions from client/api.js
-import { 
-  getObjects, 
-  getObject, 
-  addObject, 
-  updateObject, 
-  deleteObject } from '../api' 
+import {
+  getObjects,
+  getObject,
+  addObject,
+  updateObject,
+  deleteObject
+} from '../api'
 
 // Create variable for action type
 export const NAVIGATE = 'NAVIGATE'
@@ -13,7 +14,7 @@ export const PENDING = 'PENDING'
 
 export const RECEIVE_OBJECTS = 'RECEIVE_OBJECTS'
 export const REQUEST_OBJECTS = 'REQUEST_OBJECTS'
-export const ADD_OBJECT= 'ADD_OBJECT'
+export const ADD_OBJECT = 'ADD_OBJECT'
 
 export const RECEIVE_OBJECT = 'RECEIVE_OBJECT'
 export const REQUEST_OBJECT = 'REQUEST_OBJECT'

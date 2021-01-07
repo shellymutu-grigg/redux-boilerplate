@@ -16,7 +16,8 @@ export function getObject (objectId) {
   return request
     .get(`/api/v1/objects/${objectId}`)
     .then(res => {
-        return res.body})
+      return res.body
+    })
     .catch(errorHandler('GET', '/:id'))
 }
 
@@ -56,5 +57,3 @@ function errorHandler (method, route) {
     }
   }
 }
-
-

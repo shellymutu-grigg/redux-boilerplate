@@ -12,24 +12,26 @@ class ObjectForm extends React.Component {
     },
     state: ''
   }
-  
+
   handleSubmit = (e) => {
     e.preventDefault()
-    if(this.props.target === 'new'){
+    if (this.props.target === 'new') {
       this.makeNewObject()
-    } else if (this.props.target === 'edit'){
+    } else if (this.props.target === 'edit') {
       this.makeChangesToObject()
     }
   }
 
   makeNewObject = (e) => {
-     this.props.dispatch(addNewObject(this.state.object))
+    this.props.dispatch(addNewObject(this.state.object))
       .then(newObject => {
+        // eslint-disable-next-line react/no-direct-mutation-state
         this.state.object = newObject
+        // eslint-disable-next-line promise/no-nesting
         return fetchObject(newObject.id)
-          .then(this.navigateToObject(newObject[0].id)) 
+          .then(this.navigateToObject(newObject[0].id))
       })
-      .catch(err => this.setState({errorMessage: err.message}))
+      .catch(err => this.setState({ errorMessage: err.message }))
   }
 
   makeChangesToObject = (e) => {
@@ -37,12 +39,12 @@ class ObjectForm extends React.Component {
       .then(updatedObject => {
         return fetchObject(updatedObject.id)
       })
-      .catch(err => this.setState({errorMessage: err.message}))
+      .catch(err => this.setState({ errorMessage: err.message }))
   }
 
-  navigateToObject = (id) => { 
-    this.props.dispatch(getObject(id))
-    props.target = 'edit'
+  navigateToObject = (id) => {
+    this.props.dispatch(fetchObject(id))
+    this.props.target = 'edit'
     const action = navigate('edit')
     this.props.dispatch(action)
   }
@@ -52,13 +54,14 @@ class ObjectForm extends React.Component {
       ...this.state.object,
       [e.target.name]: e.target.value
     }
+    // eslint-disable-next-line react/no-direct-mutation-state
     this.state.object = newObject
   }
 
-  newForm = () =>{
+  newForm = () => {
     return (
-    <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
-       <h2 className='object-name'>Add a New Object</h2>
+      <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
+        <h2 className='object-name'>Add a New Object</h2>
 
         <fieldset>
           <div className='pure-control-group'>
@@ -84,21 +87,22 @@ class ObjectForm extends React.Component {
           </div>
         </fieldset>
 
-        <p>{this.props.errorMessage && this.props.errorMessage}</p> 
+        <p>{this.props.errorMessage && this.props.errorMessage}</p>
       </form>
     )
   }
 
   editForm = () => {
+    // eslint-disable-next-line react/no-direct-mutation-state
     this.state.object = this.props.object
-    const {id, name, description} = this.props.object
+    const { name, description } = this.props.object
     return (
       <form className='pure-form pure-form-aligned' onSubmit={this.handleSubmit}>
         <h2 className='object-name'>Edit Object</h2>
         <header className='object-header'>
           <h3 className='object-name'>Name: {name}</h3>
-          </header>
-           <h3 className='object-description'>Description: {description}</h3>
+        </header>
+        <h3 className='object-description'>Description: {description}</h3>
 
         <fieldset>
           <div className='pure-control-group'>
@@ -126,19 +130,17 @@ class ObjectForm extends React.Component {
           </div>
         </fieldset>
 
-         <p>{this.props.errorMessage && this.props.errorMessage}</p>
+        <p>{this.props.errorMessage && this.props.errorMessage}</p>
       </form>
     )
-
   }
 
-  render () { 
-    if(this.props.target === 'new'){
+  render () {
+    if (this.props.target === 'new') {
       return this.newForm()
-    }else if(this.props.target === 'edit'){  
-     return this.editForm()
+    } else if (this.props.target === 'edit') {
+      return this.editForm()
     }
-    
   }
 }
 

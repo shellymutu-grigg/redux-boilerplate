@@ -28,28 +28,29 @@ class LoadObjects extends React.Component {
 
   handleClick = (e) => {
     e.preventDefault()
-     const action = navigate('new')
-     this.props.dispatch(action)
+    const action = navigate('new')
+    this.props.dispatch(action)
   }
 
   render () {
-     return (
+    return (
       <div>
-           {this.props.objects
-            ? <>
-              {this.props.objects.map((object) => {
-               return <Object
-                  key={object.id}
-                  object={object} 
-                  fetchObjects={fetchObjects}
-              />}
-              )}
-            </>
-            : <h3>Loading data.....</h3>
-          }
-          <div>
+        {this.props.objects
+          ? <>
+            {this.props.objects.map((object) => {
+              return <Object
+                key={object.id}
+                object={object}
+                fetchObjects={fetchObjects}
+              />
+            }
+            )}
+          </>
+          : <h3>Loading data.....</h3>
+        }
+        <div>
           <button className='button-secondary pure-button' onClick={this.handleClick}> Add New Object </button>
-          </div>
+        </div>
       </div>
     )
   }

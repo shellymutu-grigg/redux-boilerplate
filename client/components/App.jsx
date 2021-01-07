@@ -16,9 +16,8 @@ const mapStateToProps = (state) => {
 const App = (props) => (
   <div className='app'>
     <Header />
-    {props.target === 'home' 
-    ? <> <LoadObjects /> <PendingIndicator /> </>: <ObjectForm />}
-    
+    {props.target === 'home'
+      ? <> <LoadObjects /> <PendingIndicator /> </> : <ObjectForm />}
   </div>
 )
 

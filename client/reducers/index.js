@@ -7,7 +7,7 @@ import objects from './objects'
 import pending from './pending'
 
 export default combineReducers({
-  object, 
+  object,
   navigation,
   objects,
   pending

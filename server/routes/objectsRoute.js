@@ -5,16 +5,16 @@ const router = express.Router()
 const db = require('../db/db')
 
 // put routes here
-//Create a new object in the database
+// Create a new object in the database
 router.post('/', (req, res) => {
   const object = req.body
   db.addObject(object)
     .then((id) => {
       const returnedId = Number(id[0])
       return db.getObject(returnedId)
-    })  
-    .then((object) => {
-      res.status(201).json(object)
+    })
+    .then((newObject) => {
+      res.status(201).json(newObject)
       return null
     })
     .catch(err => {
@@ -41,7 +41,7 @@ router.get('/:id', (req, res) => {
     .then((object) => {
       res.status(201).json(object)
       return null
-    })  
+    })
     .catch(err => {
       res.status(500).send('DB ERROR ' + err)
     })
@@ -56,7 +56,7 @@ router.patch('/:id', (req, res) => {
       return db.getObject(newId)
     })
     .then((object) => {
-      res.status(200).json(object)
+      return res.status(200).json(object)
     })
     .catch(err => {
       res.status(500).send('DB ERROR ' + err)
@@ -76,4 +76,3 @@ router.delete('/:id', (req, res) => {
 })
 
 module.exports = router
-

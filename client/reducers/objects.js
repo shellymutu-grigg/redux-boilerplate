@@ -10,7 +10,7 @@ function objects (state = [], action) {
         name: action.object.name,
         description: action.object.description
       }
-      return [...state, obj] 
+      return [...state, obj]
     }
     default:
       return state
