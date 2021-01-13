@@ -1,4 +1,4 @@
-# redux-boilerplate
+# Redux-boilerplate
 Personal Redux Boilerplate Repo Template
 
 ## Repo setup documentation
@@ -12,3 +12,9 @@ Personal Redux Boilerplate Repo Template
 7. Review "/routes/README-api.md" for api side setup of of repo 
 8. Review "/client/README-api.md" for continuation of api side setup of repo 
 9. Review "/client//components/README-client.md" for client side setup of repo
+
+## Still to complete
+1. Adequate unit testing
+2. Adequate functional testing
+3. Adequate integration testing
+4. E2E testing via front end
