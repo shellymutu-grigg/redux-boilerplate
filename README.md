@@ -11,7 +11,7 @@ Personal Redux Boilerplate Repo Template
 6. Review "/server/README-sever.md" for server side setup of repo
 7. Review "/routes/README-api.md" for api side setup of of repo 
 8. Review "/client/README-api.md" for continuation of api side setup of repo 
-9. Review "/client//components/README-client.md" for client side setup of repo
+9. Review "/client/components/README-client.md" for client side setup of repo
 
 ## Still to complete
 1. Adequate unit testing
